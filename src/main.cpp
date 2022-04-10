@@ -28,8 +28,9 @@ std::string getData(std::ifstream& stream) {
     const int n = 8;
     for (int i = 0; i < n; i++) {
         std::string line = getline(stream);
+        std::string sensor_id = line.substr(1, 4);
 
-        if (line.substr(1, 4) != std::string("5895"))
+        if (sensor_id != std::string("6222") && sensor_id != std::string("6223"))
             i--;
         else {
             if (i != 0) res += ',';
@@ -55,7 +56,7 @@ int main() {
 
     spdlog::info("连接服务器成功");
 
-    std::ifstream stream("/home/hebo/Projects/protocon-device/sensor_sample_int_output.csv", std::ios::in);
+    std::ifstream stream("/home/hebo/Projects/protocon-device/sensor_sample_float_output.csv", std::ios::in);
 
     while (gw.isOpen()) {
         gw.poll();
