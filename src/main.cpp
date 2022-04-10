@@ -4,9 +4,21 @@
 #include <Protocon/SignInResponse.h>
 #include <spdlog/spdlog.h>
 
+#include <array>
 #include <cstdio>
+#include <cstring>
 #include <ctime>
+#include <fstream>
+#include <ios>
 #include <thread>
+
+std::string getline(std::ifstream& stream) {
+    static std::array<char, 105> buffer;
+    stream.getline(buffer.data(), buffer.size());
+    buffer[std::strlen(buffer.data()) - 1] = '\0';
+
+    return '[' + std::string(buffer.data()) + ']';
+}
 
 int main() {
     bool trigger = false;
@@ -24,6 +36,8 @@ int main() {
 
     spdlog::info("连接服务器成功");
 
+    std::ifstream stream("/home/hebo/Projects/protocon-device/sensor_sample_int_output.csv", std::ios::in);
+
     while (gw.isOpen()) {
         gw.poll();
 
@@ -31,14 +45,12 @@ int main() {
             gw.send(tk, Protocon::Request{
                             static_cast<uint64_t>(time(nullptr)),
                             0x0004,
-                            "{\"msg\": \"Hello world!\"}",
+                            std::string("{\"data\": [") + getline(stream) + ',' + getline(stream) + ',' + getline(stream) + ',' + getline(stream) + ',' + getline(stream) + std::string("]}"),
                         },
                     [](const Protocon::Response& r) {});
-
-            spdlog::info("上报数据");
         }
 
-        std::this_thread::sleep_for(std::chrono::milliseconds(1000));
+        std::this_thread::sleep_for(std::chrono::milliseconds(200));
     }
 
     return 0;
