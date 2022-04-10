@@ -38,7 +38,7 @@ int main() {
             spdlog::info("上报数据");
         }
 
-        std::this_thread::sleep_for(std::chrono::milliseconds(5000));
+        std::this_thread::sleep_for(std::chrono::milliseconds(1000));
     }
 
     return 0;
