@@ -29,7 +29,7 @@ std::string getData(std::ifstream& stream) {
     for (int i = 0; i < n; i++) {
         std::string line = getline(stream);
 
-        if (line.substr(1, 5) != std::string("5895"))
+        if (line.substr(1, 4) != std::string("5895"))
             i--;
         else {
             if (i != 0) res += ',';
