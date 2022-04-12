@@ -19,7 +19,7 @@
 std::string getline(std::ifstream& stream) {
     static std::array<char, 105> buffer;
     if (!stream.getline(buffer.data(), buffer.size()).good()) {
-        std::this_thread::sleep_for(std::chrono::seconds(5));
+        std::getchar();
         throw 0;
     }
 
