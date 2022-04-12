@@ -30,12 +30,12 @@ std::string getline(std::ifstream& stream) {
 
 std::string getData(std::ifstream& stream) {
     std::string res("[");
-    const int n = 1;
+    const int n = 10;
     for (int i = 0; i < n; i++) {
         std::string line = getline(stream);
         std::string sensor_id = line.substr(1, 4);
 
-        if (sensor_id != std::string("6636"))
+        if (sensor_id != std::string("6636") || sensor_id != std::string("6222") || sensor_id != std::string("6223"))
             i--;
         else {
             if (i != 0) res += ',';
